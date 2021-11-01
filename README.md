@@ -1,23 +1,59 @@
-# docker-doctrine-migrations
-An easy way to run migrations from a container
+#### General
 
-Files for database connection and migrations configuration are located in /srv/doctrine folder
+- Migration database with docktrine migration
+- Support mysql & posgress
+- [Github](https://github.com/geekupvn/docker-doctrine-migrations)
+- [Docker Hub](https://hub.docker.com/r/geekupvn/doctrine-migration/tags)
 
+#### Prepare
 
-Launch example:
+- Pull docker image
+
 ```
-docker run -ti \
-  -v $PWD/src/Migrations:/migrations \
-  -e MIGRATIONS_PATH='/migrations' \
-  -e DATABASE_URL='mysql://user:user_password@db/app' \
-  -e MIGRATIONS_NAMESPACE='DoctrineMigrations' \
-  --network=project \
-  pashak09/docker-doctrine-migrations migrations:execute --up 'DoctrineMigrations\Version20210602174439'
+docker pull geekupvn/doctrine-migration
 ```
 
-Run build:
+- Add to your Makefile
+
 ```
-docker build -f Dockerfile -t docker-doctrine-migrations --target final .
+dbmigrate-generate:
+	docker run -v $(PWD)/migrations:/data geekupvn/doctrine-migration migration:generate
+
+dbmigrate:
+	docker run -v $(PWD)/migrations:/data geekupvn/doctrine-migration migration:migrate -n
+
+dbmigrate-down:
+	docker run -v $(PWD)/migrations:/data geekupvn/doctrine-migration migrations:migrate prev -n
 ```
 
-Image size is 60.9MB
+- copy migration config from `migrations` folder
+
+``
+
+#### Usage
+
+- Create new migration
+
+  ```
+  make dbmigrate-generate
+  ```
+
+- Run migration
+
+  ```
+  make dbmigrate
+  ```
+
+- Rollback migration
+  ```
+  make dbmigrate-down
+  ```
+
+#### Limitation
+
+- Generated file migration with root permisssion on linux
+  quick fix
+
+```
+   sudo chown your_user:your_user migrations/versions
+```
