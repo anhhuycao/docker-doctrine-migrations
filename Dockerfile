@@ -10,7 +10,7 @@ RUN cd /root && \
     rm 3.3.0.tar.gz && \
     cd migrations-3.3.0 && \
     bash build-phar.sh && \
-    php /root/migrations-3.3.0/bin/doctrine-migrations.phar
+    php /root/migrations-3.3.0/bin/doctrine-migrations.phar && \
     cp /root/migrations-3.3.0/bin/doctrine-migrations.phar /usr/bin/doctrine-migrations && \
     chmod +x /usr/bin/doctrine-migrations && \
     apk del curl && \
