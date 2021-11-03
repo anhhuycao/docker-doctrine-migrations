@@ -2,28 +2,28 @@
 
 - Migration database with docktrine migration
 - Support mysql & posgress
-- [Github](https://github.com/geekupvn/docker-doctrine-migrations)
-- [Docker Hub](https://hub.docker.com/r/geekupvn/doctrine-migration/tags)
+- [Github](https://github.com/anhhuycao/docker-doctrine-migrations)
+- [Docker Hub](https://hub.docker.com/repository/docker/anhhuybv/doctrine-migration)
 
 #### Prepare
 
 - Pull docker image
 
 ```
-docker pull geekupvn/doctrine-migration
+docker pull anhhuybv/doctrine-migration:3.3.0
 ```
 
 - Add to your Makefile
 
 ```
 dbmigrate-generate:
-	docker run -v $(PWD)/migrations:/data geekupvn/doctrine-migration migration:generate
+	docker run -v $(PWD)/migrations:/data anhhuybv/doctrine-migration:3.3.0 migration:generate
 
 dbmigrate:
-	docker run -v $(PWD)/migrations:/data geekupvn/doctrine-migration migration:migrate -n
+	docker run -v $(PWD)/migrations:/data anhhuybv/doctrine-migration:3.3.0 migration:migrate -n
 
 dbmigrate-down:
-	docker run -v $(PWD)/migrations:/data geekupvn/doctrine-migration migrations:migrate prev -n
+	docker run -v $(PWD)/migrations:/data anhhuybv/doctrine-migration:3.3.0 migrations:migrate prev -n
 ```
 
 - copy migration config from `migrations` folder
